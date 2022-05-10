@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "forest"
+name = "forest_ml"
 version = "0.1.0"
 description = "final project for ml course"
 authors = ["Alina"]
