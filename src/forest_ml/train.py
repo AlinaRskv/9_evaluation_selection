@@ -64,7 +64,7 @@ def train(
         test_split_ratio,
     )
     with mlflow.start_run():
-        pipeline = create_pipeline(use_scaler, max_iter, logreg_c, random_state)
+        pipeline = create_pipeline(use_scaler, k)
         pipeline.fit(features_train, target_train)
         accuracy = accuracy_score(target_val, pipeline.predict(features_val))
         mlflow.log_param("use_scaler", use_scaler)
