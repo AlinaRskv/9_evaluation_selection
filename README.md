@@ -31,6 +31,18 @@ poetry run train --help
 ```
 poetry run mlflow ui
 ```
+Data folder is added .gitignore.
+
+The train script is registered in pyproject.toml.
+
+The following metrics are chosen to validate the model:
+
+1. Accuracy
+2. ROC-AUC score
+3. F1-score
+
+K-fold cross-validation is used.
+
 
 
 
