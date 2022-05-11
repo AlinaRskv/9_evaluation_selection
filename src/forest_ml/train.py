@@ -38,10 +38,39 @@ from .pipeline import create_pipeline
     type=click.FloatRange(0, 1, min_open=True, max_open=True),
     show_default=True,
 )
+
+@click.option(
+    "--model",
+    default='KNeighbors',
+    type=str,
+    show_default=True,
+)
+
+@click.option(
+    "--criterion",
+    default='gini',
+    type=str,
+    show_default=True,
+)
+
+@click.option(
+    "--max_depth",
+    default=None,
+    type=int,
+    show_default=True,
+)
+
 @click.option(
     "--use-scaler",
     default=True,
     type=bool,
+    show_default=True,
+)
+
+@click.option(
+    "--scaler",
+    default='StandardScaler',
+    type=str,
     show_default=True,
 )
 
@@ -60,9 +89,9 @@ from .pipeline import create_pipeline
 )
 
 @click.option(
-    "--algorithm",
-    default='auto',
-    type=str,
+    "--p",
+    default=2,
+    type=int,
     show_default=True,
 )
 
@@ -76,10 +105,14 @@ def train(
     dataset_path: Path,
     save_model_path: Path,
     test_split_ratio: float,
+    model: str,
+    criterion: str,
+    max_depth: int,
     use_scaler: bool,
+    scaler: str,
     k: int,
     weights: str,
-    algorithm: str,
+    p: int,
     random_state: int,
 
 ) -> None:
@@ -89,7 +122,7 @@ def train(
         test_split_ratio,
     )
     with mlflow.start_run():
-        pipeline = create_pipeline(use_scaler, k, weights, algorithm)
+        pipeline = create_pipeline(use_scaler, scaler, k, weights, p, model, criterion, max_depth)
         pipeline.fit(features_train, target_train)
         accuracy = accuracy_score(target_val, pipeline.predict(features_val))
         roc_auc = roc_auc_score(target_val, pipeline.predict_proba(features_val), multi_class='ovr')
@@ -99,7 +132,7 @@ def train(
         mlflow.log_param("use_scaler", use_scaler)
         mlflow.log_param("k", k)
         mlflow.log_param("weights", weights)
-        mlflow.log_param("algorithm", algorithm)
+        mlflow.log_param("p", p)
         mlflow.log_metric("accuracy", accuracy)
         mlflow.log_metric("roc_auc_score", roc_auc)
         mlflow.log_metric("f1_score", f1)
