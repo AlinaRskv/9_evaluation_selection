@@ -69,7 +69,7 @@ from .pipeline import create_pipeline
 
 @click.option(
     "--scaler",
-    default='StandardScaler',
+    default='Standard',
     type=str,
     show_default=True,
 )
@@ -130,6 +130,7 @@ def train(
         cv = KFold(n_splits=10, random_state=random_state, shuffle=True)
         scores = cross_val_score(pipeline, features_train, target_train, scoring='accuracy', cv=cv, n_jobs=-1)
         mlflow.log_param("use_scaler", use_scaler)
+        mlflow.log_param("scaler type", scaler)
         mlflow.log_param("k", k)
         mlflow.log_param("weights", weights)
         mlflow.log_param("p", p)
