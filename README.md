@@ -4,13 +4,28 @@ This package allows you to train model to predict an integer classification for 
 
 1. Clone this repository to your machine.
 
-2. Download Forest dataset, save csv locally (default path is data/heart.csv in repository's root).
+2. Download [Forest Train Dataset](https://www.kaggle.com/competitions/forest-cover-type-prediction), save csv locally (default path is data/heart.csv in repository's root).
 
 3. Make sure Python 3.9 and Poetry are installed on your machine.
 
 4. Install the project dependencies (run this and following commands in a terminal, from the root of a cloned repository):
 
+```
 poetry install --no-dev
+```
+
+5. Run train with the following command:
+
+```
+poetry run train -d <path to csv with data>
+```
+
+6.Run MLflow UI to see the information about experiments you conducted:
+
+```
+poetry run mlflow ui
+```
+
 
 
 
