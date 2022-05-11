@@ -86,7 +86,7 @@ def train(
         pipeline = create_pipeline(use_scaler, k, weights, algorithm)
         pipeline.fit(features_train, target_train)
         accuracy = accuracy_score(target_val, pipeline.predict(features_val))
-        roc_auc = roc_auc_score(target_val, pipeline.predict_proba(features_val), multi_class='ovo')
+        roc_auc = roc_auc_score(target_val, pipeline.predict_proba(features_val), multi_class='ovr')
         f1 = f1_score(target_val, pipeline.predict(features_val), average='macro')
         mlflow.log_param("use_scaler", use_scaler)
         mlflow.log_param("k", k)
