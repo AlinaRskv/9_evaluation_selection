@@ -45,6 +45,20 @@ from .pipeline import create_pipeline
 )
 
 @click.option(
+    "--weights",
+    default='uniform',
+    type=str,
+    show_default=True,
+)
+
+@click.option(
+    "--algorithm",
+    default='auto',
+    type=str,
+    show_default=True,
+)
+
+@click.option(
     "--random-state",
     default=42,
     type=int,
@@ -56,7 +70,10 @@ def train(
     test_split_ratio: float,
     use_scaler: bool,
     k: int,
+    weights: str,
+    algorithm: str,
     random_state: int,
+
 ) -> None:
     features_train, features_val, target_train, target_val = get_dataset(
         dataset_path,
@@ -64,11 +81,13 @@ def train(
         test_split_ratio,
     )
     with mlflow.start_run():
-        pipeline = create_pipeline(use_scaler, k)
+        pipeline = create_pipeline(use_scaler, k, weights, algorithm)
         pipeline.fit(features_train, target_train)
         accuracy = accuracy_score(target_val, pipeline.predict(features_val))
         mlflow.log_param("use_scaler", use_scaler)
         mlflow.log_param("k", k)
+        mlflow.log_param("weights", weights)
+        mlflow.log_param("algorithm", algorithm)
         mlflow.log_metric("accuracy", accuracy)
         click.echo(f"Accuracy: {accuracy}.")
         dump(pipeline, save_model_path)
