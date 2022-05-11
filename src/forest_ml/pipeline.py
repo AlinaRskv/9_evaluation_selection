@@ -9,9 +9,9 @@ def create_pipeline(
     use_scaler: bool, scaler: str,  k: int, weights: str, p: int, model: str, criterion: str, max_depth: int
 ) -> Pipeline:
     pipeline_steps = []
-    if use_scaler and scaler == 'StandardScaler':
+    if use_scaler and scaler == 'Standard':
         pipeline_steps.append(("scaler", StandardScaler()))
-    elif use_scaler and scaler == 'MinMaxScaler':
+    elif use_scaler and scaler == 'MinMax':
         pipeline_steps.append(("scaler", MinMaxScaler()))
     if model == 'KNeighbors':
         pipeline_steps.append(
