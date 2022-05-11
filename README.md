@@ -45,6 +45,9 @@ K-fold cross-validation is used.
 
 Also added two different ML models and feature engineering techniques.
 
+![image](https://user-images.githubusercontent.com/93600494/167895137-1b33441e-6357-4feb-af71-9769ac222d88.png)
+
+
 
 
 
