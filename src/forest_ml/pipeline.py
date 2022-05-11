@@ -11,7 +11,7 @@ def create_pipeline(
     pipeline_steps = []
     if use_scaler and scaler == 'Standard':
         pipeline_steps.append(("scaler", StandardScaler()))
-    elif use_scaler and scaler == 'MinMax':
+    if use_scaler and scaler == 'MinMax':
         pipeline_steps.append(("scaler", MinMaxScaler()))
     if model == 'KNeighbors':
         pipeline_steps.append(
@@ -24,7 +24,7 @@ def create_pipeline(
                 ),
             )
         )
-    elif model == 'DecisionTree':
+    if model == 'DecisionTree':
         pipeline_steps.append(
             (
                 "classifier",
