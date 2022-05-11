@@ -20,7 +20,7 @@ poetry install --no-dev
 poetry run train -d <path to csv with data>
 ```
 
-6.Run MLflow UI to see the information about experiments you conducted:
+6. Run MLflow UI to see the information about experiments you conducted:
 
 ```
 poetry run mlflow ui
