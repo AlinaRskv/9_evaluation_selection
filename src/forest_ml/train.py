@@ -5,6 +5,7 @@ import click
 import mlflow
 import mlflow.sklearn
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import roc_auc_score
 
 from .data import get_dataset
 from .pipeline import create_pipeline
@@ -84,11 +85,14 @@ def train(
         pipeline = create_pipeline(use_scaler, k, weights, algorithm)
         pipeline.fit(features_train, target_train)
         accuracy = accuracy_score(target_val, pipeline.predict(features_val))
+        roc_auc = roc_auc_score(target_val, pipeline.predict(features_val))
         mlflow.log_param("use_scaler", use_scaler)
         mlflow.log_param("k", k)
         mlflow.log_param("weights", weights)
         mlflow.log_param("algorithm", algorithm)
         mlflow.log_metric("accuracy", accuracy)
+        mlflow.log_metric("roc_auc_score", roc_auc)
         click.echo(f"Accuracy: {accuracy}.")
+        click.echo(f"roc_auc_score: {roc_auc}.")
         dump(pipeline, save_model_path)
         click.echo(f"Model is saved to {save_model_path}.")
