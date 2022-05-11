@@ -8,6 +8,12 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import f1_score
 
+from numpy import mean
+from numpy import std
+
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
+
 from .data import get_dataset
 from .pipeline import create_pipeline
 
@@ -88,6 +94,8 @@ def train(
         accuracy = accuracy_score(target_val, pipeline.predict(features_val))
         roc_auc = roc_auc_score(target_val, pipeline.predict_proba(features_val), multi_class='ovr')
         f1 = f1_score(target_val, pipeline.predict(features_val), average='macro')
+        cv = KFold(n_splits=10, random_state=random_state, shuffle=True)
+        scores = cross_val_score(pipeline, features_train, target_train, scoring='accuracy', cv=cv, n_jobs=-1)
         mlflow.log_param("use_scaler", use_scaler)
         mlflow.log_param("k", k)
         mlflow.log_param("weights", weights)
@@ -95,8 +103,11 @@ def train(
         mlflow.log_metric("accuracy", accuracy)
         mlflow.log_metric("roc_auc_score", roc_auc)
         mlflow.log_metric("f1_score", f1)
+        mlflow.log_metric("K-fold CV mean score", mean(scores))
+        mlflow.log_metric("K-fold CV std of scores", std(scores))
         click.echo(f"Accuracy: {accuracy}.")
         click.echo(f"roc_auc_score: {roc_auc}.")
         click.echo(f"f1_score: {f1}.")
+        click.echo(f"K-fold CV mean score {mean(scores)} with standard deviation {std(scores)}.")
         dump(pipeline, save_model_path)
         click.echo(f"Model is saved to {save_model_path}.")
