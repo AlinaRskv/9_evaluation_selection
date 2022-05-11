@@ -104,14 +104,14 @@ def train(
     dataset_path: Path,
     save_model_path: Path,
     test_split_ratio: float,
-    model: str,
-    criterion: str,
-    max_depth: int,
     use_scaler: bool,
     scaler: str,
     k: int,
     weights: str,
     p: int,
+    model: str,
+    criterion: str,
+    max_depth: int,
     random_state: int,
 
 ) -> None:
@@ -122,8 +122,8 @@ def train(
     )
     with mlflow.start_run():
         pipeline = create_pipeline(use_scaler, scaler, k, weights, p, model, criterion, max_depth)
-        cv = KFold(random_state=random_state, shuffle=True)
-        scores = cross_val_score(pipeline, features_train, target_train, scoring='accuracy', cv=cv, n_jobs=-1)
+        cv = KFold(random_state=42, shuffle=True)
+        scores = cross_val_score(pipeline, features_train, target_train, scoring='accuracy', cv=cv)
         cv_mean_score = np.mean(scores)
         pipeline.fit(features_train, target_train)
         accuracy = accuracy_score(target_val, pipeline.predict(features_val))
