@@ -43,6 +43,8 @@ The following metrics are chosen to validate the model:
 
 K-fold cross-validation is used.
 
+Also added two different ML models and feature engineering techniques.
+
 
 
 
