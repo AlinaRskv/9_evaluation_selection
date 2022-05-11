@@ -6,7 +6,7 @@ This package allows you to train model to predict an integer classification for 
 
 2. Download [Forest Train Dataset](https://www.kaggle.com/competitions/forest-cover-type-prediction), save csv locally (default path is data/heart.csv in repository's root).
 
-3. Make sure Python 3.9 and Poetry are installed on your machine.
+3. Make sure Python 3.9.12 and Poetry are installed on your machine.
 
 4. Install the project dependencies (run this and following commands in a terminal, from the root of a cloned repository):
 
